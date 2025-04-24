@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gravity Warp Boxes</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      font-family: sans-serif;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 300px;
+      border: 2px dashed #444;
+      overflow: hidden;
+    }
+
+    .box {
+      width: 80px;
+      height: 80px;
+      background-color: #00f2ff;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 12px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .box1 {
+      left: 0;
+      background: #00f2ff;
+    }
+
+    .box2 {
+      right: 0;
+      background: #ff0077;
+    }
+
+    .animate-in {
+      animation: attract 1s forwards ease-in;
+    }
+
+    .animate-out {
+      animation: repel 1.2s forwards ease-out;
+    }
+
+    @keyframes attract {
+      0% {
+        transform: translateY(-50%) scale(1) rotate(0deg);
+      }
+      100% {
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.5) rotate(360deg);
+        border-radius: 50%;
+      }
+    }
+
+    @keyframes repel {
+      0% {
+        transform: translate(-50%, -50%) scale(1.5) rotate(360deg);
+        border-radius: 50%;
+      }
+      100% {
+        transform: translateY(-50%) scale(1) rotate(0deg);
+        left: -100px;
+        opacity: 0;
+      }
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: white;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="box box1" id="box1"></div>
+    <div class="box box2" id="box2"></div>
+  </div>
+
+  <button onclick="triggerWarp()">Activate Gravity Warp</button>
+
+  <script>
+    const box1 = document.getElementById('box1');
+    const box2 = document.getElementById('box2');
+
+    function triggerWarp() {
+      // Reset any old classes
+      box1.classList.remove('animate-out');
+      box2.classList.remove('animate-out');
+      box1.classList.remove('animate-in');
+      box2.classList.remove('animate-in');
+
+      // Trigger attraction
+      setTimeout(() => {
+        box1.classList.add('animate-in');
+        box2.classList.add('animate-in');
+      }, 50);
+
+      // After attraction, repel them
+      setTimeout(() => {
+        box1.classList.add('animate-out');
+        box2.classList.add('animate-out');
+      }, 1300);
+    }
+  </script>
+
+</body>
+</html>
